@@ -1,0 +1,132 @@
+<!-- libraries -->
+
+<!-- paper elements -->
+<link rel="import" href="bower_components/paper-input/paper-input.html"/>
+<link rel="import" href="bower_components/paper-button/paper-button.html"/>
+<link rel="import" href="bower_components/paper-dropdown-menu/paper-dropdown-menu.html"/>
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html"/>
+
+<!-- iron elements -->
+<link rel="import" href="bower_components/iron-form/iron-form.html"/>
+<link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html"/>
+
+<!-- neon elements -->
+<link rel="import" href="bower_components/neon-animation/animations/fade-out-animation.html">
+
+<!--
+
+descriptive text
+
+Example:
+
+   <bde-webpackdoc-input></bde-webpackdoc-input>
+
+@group BDE Custom Elements
+@hero hero.svg
+@element bde-webpackdoc-input
+@demo demo/index.html
+-->
+<!-- TODO (ene): error states and validation -->
+<!-- TODO (ene): dropdowns -->
+<!-- TODO (ene): formSubmit -->
+<!-- TODO (ene): styling -->
+
+<dom-module id="bde-webpackdoc-input">
+
+    <template>
+        <style>
+            :host {
+                display: block;
+                flex: auto;
+                box-sizing: border-box;
+                font-family: 'Roboto Mono', 'Consolas', 'Menlo', monospace;
+            }
+
+        </style>
+
+        <paper-dialog opened="{{open}}" with-backdrop exit-animation="fade-out-animation">
+            <h3>Project Properties (webpackageDocument)</h3>
+
+            <form is="iron-form" id="webpackdocForm" method="post">
+
+                <paper-input
+                        label="groupid"
+                        pattern="[a-z]+[.][a-z]+"
+                        maxlength="150"
+                        error-message="groupid must contain a dot">
+                </paper-input>
+                <paper-input
+                        label="name"
+                        pattern="\w+(?:-\w+)+"
+                        maxlength="150"
+                        error-message="name must contain a dash">
+                </paper-input>
+                <paper-input
+                        label="version"
+                        pattern="(\d+\.)?(\d+\.)(\d+)"
+                        maxlength="150"
+                        error-message="version must follow this pattern '0.0.1' ">
+                </paper-input>
+
+                <paper-input
+                        label="description"
+                        char-counter
+                        maxlength="200">
+                </paper-input>
+
+                <paper-input
+                        label="author"
+                        pattern="[a-zA-Z\s]+">
+                </paper-input>
+                <paper-input
+                        label="email"
+                        type="email"
+                        pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}"
+                        error-message="enter a valid email"
+                        auto-validate>
+                </paper-input>
+
+                <paper-input label="keywords"></paper-input>
+
+                <paper-dropdown-menu label="modelVersion"></paper-dropdown-menu>
+                <paper-dropdown-menu label="webpackageType"></paper-dropdown-menu>
+                <paper-dropdown-menu label="license"></paper-dropdown-menu>
+
+                <p id="formButtons">
+                    <paper-button dialog-dismiss>Close</paper-button>
+
+                    <paper-button dialog-confirm on-tap="submitForm">Submit</paper-button>
+                </p>
+
+            </form>
+        </paper-dialog>
+    </template>
+
+</dom-module>
+
+<script>
+
+    Polymer({
+
+        is : 'bde-webpackdoc-input',
+
+        properties : {
+            open : Boolean,
+            groupid : String,
+            name : String,
+            version : String,
+            description : String,
+            author : String,
+            email : String,
+            keywords : Array,
+            modelVersion : Array,
+            webPackageType : Array,
+            license : Array
+        },
+
+        submitForm : function(){
+            console.log('>> Submit !! <<')
+        }
+    });
+
+</script>
