@@ -37,9 +37,12 @@ Example:
         <style>
             :host {
                 display: block;
-                flex: auto;
-                box-sizing: border-box;
                 font-family: 'Roboto Mono', 'Consolas', 'Menlo', monospace;
+            }
+
+            :host #formButtons{
+                float: right;
+                padding: 10px
             }
 
         </style>
@@ -49,24 +52,26 @@ Example:
 
             <form is="iron-form" id="webpackdocForm" method="post">
 
-                <paper-input
-                        label="groupid"
-                        pattern="[a-z]+[.][a-z]+"
-                        maxlength="150"
-                        error-message="groupid must contain a dot">
-                </paper-input>
-                <paper-input
-                        label="name"
-                        pattern="\w+(?:-\w+)+"
-                        maxlength="150"
-                        error-message="name must contain a dash">
-                </paper-input>
-                <paper-input
-                        label="version"
-                        pattern="(\d+\.)?(\d+\.)(\d+)"
-                        maxlength="150"
-                        error-message="version must follow this pattern '0.0.1' ">
-                </paper-input>
+                <div class="layout horizontal">
+                    <paper-input
+                            label="groupid"
+                            pattern="[a-z]+[.][a-z]+"
+                            maxlength="150"
+                            error-message="groupid must contain a dot">
+                    </paper-input>
+                    <paper-input
+                            label="name"
+                            pattern="\w+(?:-\w+)+"
+                            maxlength="150"
+                            error-message="name must contain a dash">
+                    </paper-input>
+                    <paper-input
+                            label="version"
+                            pattern="(\d+\.)?(\d+\.)(\d+)"
+                            maxlength="150"
+                            error-message="version must follow this pattern '0.0.1' ">
+                    </paper-input>
+                </div>
 
                 <paper-input
                         label="description"
@@ -74,17 +79,19 @@ Example:
                         maxlength="200">
                 </paper-input>
 
-                <paper-input
-                        label="author"
-                        pattern="[a-zA-Z\s]+">
-                </paper-input>
-                <paper-input
-                        label="email"
-                        type="email"
-                        pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}"
-                        error-message="enter a valid email"
-                        auto-validate>
-                </paper-input>
+                <div class="layout horizontal">
+                    <paper-input
+                            label="author"
+                            pattern="[a-zA-Z\s]+">
+                    </paper-input>
+                    <paper-input
+                            label="email"
+                            type="email"
+                            pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}"
+                            error-message="enter a valid email"
+                            auto-validate>
+                    </paper-input>
+                </div>
 
                 <paper-input label="keywords"></paper-input>
 
@@ -92,11 +99,13 @@ Example:
                 <paper-dropdown-menu label="webpackageType"></paper-dropdown-menu>
                 <paper-dropdown-menu label="license"></paper-dropdown-menu>
 
-                <p id="formButtons">
+                <p></p>
+
+                <div id="formButtons">
                     <paper-button dialog-dismiss>Close</paper-button>
 
                     <paper-button dialog-confirm on-tap="submitForm">Submit</paper-button>
-                </p>
+                </div>
 
             </form>
         </paper-dialog>
