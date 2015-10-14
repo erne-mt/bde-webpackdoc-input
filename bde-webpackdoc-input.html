@@ -5,9 +5,12 @@
 <link rel="import" href="bower_components/paper-button/paper-button.html"/>
 <link rel="import" href="bower_components/paper-dropdown-menu/paper-dropdown-menu.html"/>
 <link rel="import" href="bower_components/paper-dialog/paper-dialog.html"/>
+<link rel="import" href="bower_components/paper-item/paper-item.html"/>
+<link rel="import" href="bower_components/paper-menu/paper-menu.html"/>
 
 <!-- iron elements -->
 <link rel="import" href="bower_components/iron-form/iron-form.html"/>
+<link rel="import" href="bower_components/iron-input/iron-input.html"/>
 <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html"/>
 
 <!-- neon elements -->
@@ -27,8 +30,8 @@ Example:
 @demo demo/index.html
 -->
 <!-- TODO (ene): error states and validation -->
-<!-- TODO (ene): dropdowns -->
-<!-- TODO (ene): formSubmit -->
+<!-- TODO (ene): required field ??? -->
+<!-- TODO (ene): no submit if there are invalid fields -->
 
 <dom-module id="bde-webpackdoc-input">
 
@@ -109,11 +112,40 @@ Example:
                     </paper-input>
                 </div>
 
-                <paper-input label="keywords" value="{{keywords}}"></paper-input>
+                <paper-input name="keywords" label="keywords" value="{{keywords}}"></paper-input>
 
-                <paper-dropdown-menu label="modelVersion"></paper-dropdown-menu>
-                <paper-dropdown-menu label="webpackageType"></paper-dropdown-menu>
-                <paper-dropdown-menu label="license"></paper-dropdown-menu>
+                <paper-dropdown-menu label="modelVersion"
+                                     selected-item="{{selectedModelVersion}}"
+                                     selected-item-label="{{selected}}">
+                    <paper-menu class="dropdown-content">
+                        <template is="dom-repeat" items="{{modelVersions}}">
+                            <paper-item value="{{item}}">{{item}}</paper-item>
+                        </template>
+                    </paper-menu>
+                </paper-dropdown-menu>
+                <input is="iron-input" type="hidden" name="modelVersion" value$="[[selectedModelVersion.value]]"/>
+
+                <paper-dropdown-menu label="webpackageType"
+                                     selected-item="{{selectedWebpackageType}}"
+                                     selected-item-label="{{selected}}">
+                    <paper-menu class="dropdown-content">
+                        <template is="dom-repeat" items="{{webpackageTypes}}">
+                            <paper-item value="{{item}}">{{item}}</paper-item>
+                        </template>
+                    </paper-menu>
+                </paper-dropdown-menu>
+                <input is="iron-input" type="hidden" name="webpackageType" value$="[[selectedWebpackageType.value]]"/>
+
+                <paper-dropdown-menu label="license"
+                                     selected-item="{{selectedLicense}}"
+                                     selected-item-label="{{selected}}">
+                    <paper-menu class="dropdown-content">
+                        <template is="dom-repeat" items="{{licenses}}">
+                            <paper-item value="{{item}}">{{item}}</paper-item>
+                        </template>
+                    </paper-menu>
+                </paper-dropdown-menu>
+                <input is="iron-input" type="hidden" name="license" value$="[[selectedLicense.value]]"/>
 
                 <p></p>
 
@@ -140,21 +172,24 @@ Example:
 
         properties : {
             open : Boolean,
-            groupid : {type:String, value: 'de.test'},
-            name : {type:String, value: 'test-component'},
-            version : {type:String, value: '0.0.0'},
-            description : {type:String, value: 'This is a test description'},
-            author : {type:String, value: 'Tester von Test'},
-            email : {type:String, value: 'test@tester.de'},
+            groupid : {type : String, value : 'de.test'},
+            name : {type : String, value : 'test-component'},
+            version : {type : String, value : '0.0.0'},
+            description : {type : String, value : 'This is a test description'},
+            author : {type : String, value : 'Tester von Test'},
+            email : {type : String, value : 'test@tester.de'},
             keywords : Array,
-            modelVersion : Array,
-            webPackageType : Array,
-            license : Array,
-            webpackageManifest : Object
+            modelVersion : String,
+            webPackageType : String,
+            license : String,
+            webpackageManifest : Object,
+            modelVersions : {type : Array, value : ['4.0', '5.0', '6.0', '7.0', '8.0', 'future']},
+            webpackageTypes : {type : Array, value : ['webcomponent', 'webapp']},
+            licenses : {type : Array, value : ['MIT', 'BSD']}
         },
 
         submitForm : function(){
-            console.log('>> data: on-webpackDocForm.submit():',this.$.webpackdocForm.serialize());
+            console.log('>> data: on-webpackDocForm.submit():', this.$.webpackdocForm.serialize());
 //            this.$.webpackdocForm.submit();
         }
 
