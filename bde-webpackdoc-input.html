@@ -30,8 +30,9 @@ Example:
 @demo demo/index.html
 -->
 <!-- TODO (ene): error states and validation -->
-<!-- TODO (ene): required field ??? -->
+<!-- TODO (ene): required fields ??? -->
 <!-- TODO (ene): no submit if there are invalid fields -->
+<!-- TODO (ene): keyword array, spaces and commas are dividing elements, from there create the array -->
 
 <dom-module id="bde-webpackdoc-input">
 
@@ -150,12 +151,8 @@ Example:
                 <p></p>
 
                 <paper-button
-                        class="formButton"
-                        dialog-confirm
-                        on-tap="submitForm">
-                    Submit
-                </paper-button>
-                <paper-button class="formButton" dialog-dismiss>Close</paper-button>
+                        class="formButton" dialog-confirm on-tap="submitForm"> Submit </paper-button>
+                <paper-button class="formButton" dialog-dismiss> Close</paper-button>
 
 
             </form>
@@ -179,10 +176,6 @@ Example:
             author : {type : String, value : 'Tester von Test'},
             email : {type : String, value : 'test@tester.de'},
             keywords : Array,
-            modelVersion : String,
-            webPackageType : String,
-            license : String,
-            webpackageManifest : Object,
             modelVersions : {type : Array, value : ['4.0', '5.0', '6.0', '7.0', '8.0', 'future']},
             webpackageTypes : {type : Array, value : ['webcomponent', 'webapp']},
             licenses : {type : Array, value : ['MIT', 'BSD']}
