@@ -29,9 +29,7 @@ Example:
 @element bde-webpackdoc-input
 @demo demo/index.html
 -->
-<!-- TODO (ene): error states and validation -->
-<!-- TODO (ene): required fields ??? -->
-<!-- TODO (ene): no submit if there are invalid fields -->
+<!-- TODO (ene): make the dropdowns required fields as well -->
 <!-- TODO (ene): keyword array, spaces and commas are dividing elements, from there create the array -->
 
 <dom-module id="bde-webpackdoc-input">
@@ -50,7 +48,7 @@ Example:
 
         </style>
 
-        <paper-dialog opened="{{open}}" with-backdrop exit-animation="fade-out-animation">
+        <paper-dialog opened="{{open}}" modal exit-animation="fade-out-animation" closeSelector="[dismissive]">
             <h3>Project Properties (webpackageDocument)</h3>
 
             <form is="iron-form" id="webpackdocForm" method="get">
@@ -63,7 +61,8 @@ Example:
                             pattern="[a-z]+[.][a-z]+"
                             maxlength="20"
                             error-message="groupid must contain a dot"
-                            auto-validate>
+                            auto-validate
+                            required>
                     </paper-input>
                     <paper-input
                             name="name"
@@ -72,7 +71,8 @@ Example:
                             pattern="\w+(?:-\w+)+"
                             maxlength="30"
                             error-message="name must contain a dash"
-                            auto-validate>
+                            auto-validate
+                            required>
                     </paper-input>
                     <paper-input
                             name="version"
@@ -81,7 +81,8 @@ Example:
                             pattern="(\d+\.)?(\d+\.)(\d+)"
                             maxlength="8"
                             error-message="version must follow this pattern '0.0.1' "
-                            auto-validate>
+                            auto-validate
+                            required>
                     </paper-input>
                 </div>
 
@@ -100,7 +101,8 @@ Example:
                             label="author"
                             pattern="[a-zA-Z\s]+"
                             error-message="enter a valid author name"
-                            auto-validate>
+                            auto-validate
+                            required>
                     </paper-input>
                     <paper-input
                             name="email"
@@ -109,7 +111,8 @@ Example:
                             type="email"
                             pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}"
                             error-message="enter a valid email"
-                            auto-validate>
+                            auto-validate
+                            required>
                     </paper-input>
                 </div>
 
@@ -117,7 +120,8 @@ Example:
 
                 <paper-dropdown-menu label="modelVersion"
                                      selected-item="{{selectedModelVersion}}"
-                                     selected-item-label="{{selected}}">
+                                     selected-item-label="{{selected}}"
+                                     required>
                     <paper-menu class="dropdown-content">
                         <template is="dom-repeat" items="{{modelVersions}}">
                             <paper-item value="{{item}}">{{item}}</paper-item>
@@ -128,7 +132,8 @@ Example:
 
                 <paper-dropdown-menu label="webpackageType"
                                      selected-item="{{selectedWebpackageType}}"
-                                     selected-item-label="{{selected}}">
+                                     selected-item-label="{{selected}}"
+                                     required>
                     <paper-menu class="dropdown-content">
                         <template is="dom-repeat" items="{{webpackageTypes}}">
                             <paper-item value="{{item}}">{{item}}</paper-item>
@@ -151,7 +156,8 @@ Example:
                 <p></p>
 
                 <paper-button
-                        class="formButton" dialog-confirm on-tap="submitForm"> Submit </paper-button>
+                        class="formButton" dialog-confirm on-tap="submitForm"> Submit
+                </paper-button>
                 <paper-button class="formButton" dialog-dismiss> Close</paper-button>
 
 
@@ -169,21 +175,55 @@ Example:
 
         properties : {
             open : Boolean,
-            groupid : {type : String, value : 'de.test'},
-            name : {type : String, value : 'test-component'},
-            version : {type : String, value : '0.0.0'},
-            description : {type : String, value : 'This is a test description'},
-            author : {type : String, value : 'Tester von Test'},
-            email : {type : String, value : 'test@tester.de'},
+            groupid : {
+                type : String,
+                value : 'de.test'
+            },
+            name : {
+                type : String,
+                value : 'test-component'
+            },
+            version : {
+                type : String,
+                value : '0.0.0'
+            },
+            description : {
+                type : String,
+                value : 'This is a test description'
+            },
+            author : {
+                type : String,
+                value : 'Tester von Test'
+            },
+            email : {
+                type : String,
+                value : 'test@tester.de'
+            },
             keywords : Array,
-            modelVersions : {type : Array, value : ['4.0', '5.0', '6.0', '7.0', '8.0', 'future']},
-            webpackageTypes : {type : Array, value : ['webcomponent', 'webapp']},
-            licenses : {type : Array, value : ['MIT', 'BSD']}
+            modelVersions : {
+                type : Array,
+                value : ['4.0', '5.0', '6.0', '7.0', '8.0', 'future']
+            },
+            webpackageTypes : {
+                type : Array,
+                value : ['webcomponent', 'webapp']
+            },
+            licenses : {
+                type : Array,
+                value : ['MIT', 'BSD']
+            }
         },
 
-        submitForm : function(){
-            console.log('>> data: on-webpackDocForm.submit():', this.$.webpackdocForm.serialize());
-//            this.$.webpackdocForm.submit();
+        submitForm : function(evt){
+            if (this.$.webpackdocForm.validate() == false) {
+                evt.stopPropagation();
+            }
+            else {
+                // to use the data from submitting the form; the application has to listen to the 'iron-form-submit' event
+                this.$.webpackdocForm.submit();
+                console.log('>> data: on-webpackDocForm.submit():', this.$.webpackdocForm.serialize());
+            }
+
         }
 
     });
