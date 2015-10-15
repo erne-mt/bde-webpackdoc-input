@@ -18,9 +18,16 @@
 <script>
     document.addEventListener('WebComponentsReady', function(){
 
+        document.querySelector('bde-webpackdoc-input').groupid = 'de.test';
+        document.querySelector('bde-webpackdoc-input').name = 'test-component';
+        document.querySelector('bde-webpackdoc-input').version = '0.0.0';
+        document.querySelector('bde-webpackdoc-input').description = 'This is a test description';
+        document.querySelector('bde-webpackdoc-input').author = 'Tester von Test';
+        document.querySelector('bde-webpackdoc-input').email = 'test@tester.de';
+
         document.querySelector('bde-webpackdoc-input').open = true;
 
-        var toggle = document.querySelector('#toggleForm')
+        var toggle = document.querySelector('#toggleForm');
 
         toggle.addEventListener('tap', function(){
             document.querySelector('bde-webpackdoc-input').open = !document.querySelector('bde-webpackdoc-input').open

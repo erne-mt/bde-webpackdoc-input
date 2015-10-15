@@ -1,4 +1,5 @@
 <!-- libraries -->
+<link rel="import" href="bower_components/polymer/polymer.html">
 
 <!-- paper elements -->
 <link rel="import" href="bower_components/paper-input/paper-input.html"/>
@@ -17,8 +18,8 @@
 <link rel="import" href="bower_components/neon-animation/animations/fade-out-animation.html">
 
 <!--
-
-descriptive text
+A BDE custom-element, functioning as an input-form for the required webpackage metadata, presented in a modal dialog,
+where the confirmation button functions for the submission fo the data.
 
 Example:
 
@@ -29,7 +30,6 @@ Example:
 @element bde-webpackdoc-input
 @demo demo/index.html
 -->
-<!-- TODO (ene): make the dropdowns required fields as well -->
 
 <dom-module id="bde-webpackdoc-input">
 
@@ -117,7 +117,7 @@ Example:
 
                 <paper-input name="keywords" label="keywords" value="{{keywords}}"
                              on-blur="handleKeyword"></paper-input>
-
+                <!-- TODO (ene): make the dropdowns working required fields as well -->
                 <paper-dropdown-menu label="modelVersion"
                                      selected-item="{{selectedModelVersion}}"
                                      selected-item-label="{{selected}}"
@@ -156,7 +156,9 @@ Example:
                 <p></p>
 
                 <paper-button
-                        class="formButton" dialog-confirm on-tap="submitForm"> Submit
+                        class="formButton"
+                        dialog-confirm
+                        on-tap="submitForm"> Submit
                 </paper-button>
                 <paper-button class="formButton" dialog-dismiss> Close</paper-button>
 
@@ -174,46 +176,110 @@ Example:
         is : 'bde-webpackdoc-input',
 
         properties : {
+            /**
+             * Property binding to the opened attribute of the dialog, to open the input-form.
+             *
+             * @property open
+             * @type Boolean
+             */
             open : Boolean,
-            groupid : {
-                type : String,
-                value : 'de.test'
-            },
-            name : {
-                type : String,
-                value : 'test-component'
-            },
-            version : {
-                type : String,
-                value : '0.0.0'
-            },
-            description : {
-                type : String,
-                value : 'This is a test description'
-            },
-            author : {
-                type : String,
-                value : 'Tester von Test'
-            },
-            email : {
-                type : String,
-                value : 'test@tester.de'
-            },
+
+            /**
+             * Property for groupid input. Follows a regEx for a mandatory '.'
+             *
+             * @property groupid
+             * @type String
+             */
+            groupid : String,
+
+            /**
+             * Property for name input. Follows a regEx for a mandatory '-'
+             *
+             * @property name
+             * @type String
+             */
+            name : String,
+
+            /**
+             * Property for version input. Follows a regEx to allow only numbers and '.'
+             *
+             * @property version
+             * @type String
+             */
+            version : String,
+
+            /**
+             * Property for description input.
+             *
+             * @property description
+             * @type String
+             */
+            description : String,
+
+            /**
+             * Property for author input.
+             *
+             * @property author
+             * @type String
+             */
+            author : String,
+
+            /**
+             * Property for email input.
+             *
+             * @property email
+             * @type String
+             */
+            email : String,
+
+            /**
+             * Property for keyword input.
+             *
+             * @property keywords
+             * @type String
+             */
             keywords : String,
+
+            /**
+             * A default array containing modelVersions to chose from.
+             *
+             * @property modelVersion
+             * @type Array
+             */
             modelVersions : {
                 type : Array,
-                value : ['4.0', '5.0', '6.0', '7.0', '8.0', 'future']
+                value : ['4.0', '5.0', '6.0', '7.0', '8.0']
             },
+
+            /**
+             * A default array containing webpackageTypes.
+             *
+             * @property webpackageTypes
+             * @type Array
+             */
             webpackageTypes : {
                 type : Array,
                 value : ['webcomponent', 'webapp']
             },
+
+            /**
+             * A default array containing licenses.
+             *
+             * @property licenses
+             * @type Array
+             */
             licenses : {
                 type : Array,
                 value : ['MIT', 'BSD']
             }
         },
 
+        /**
+         * Checks for validity of the form before submitting the data.
+         *
+         * @method submitForm
+         * @param evt
+         */
         submitForm : function(evt){
             if (this.$.webpackdocForm.validate() == false) {
                 evt.stopPropagation();
@@ -225,6 +291,11 @@ Example:
             }
         },
 
+        /**
+         * Handles the keyword input, separates items by comma and space to return an array of values.
+         *
+         * @returns {Array|keywords}
+         */
         handleKeyword : function(){
             this.keywords = this.keywords.split(/[ ,]+/);
             return this.keywords
