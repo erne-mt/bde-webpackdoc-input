@@ -30,7 +30,6 @@ Example:
 @demo demo/index.html
 -->
 <!-- TODO (ene): make the dropdowns required fields as well -->
-<!-- TODO (ene): keyword array, spaces and commas are dividing elements, from there create the array -->
 
 <dom-module id="bde-webpackdoc-input">
 
@@ -116,7 +115,8 @@ Example:
                     </paper-input>
                 </div>
 
-                <paper-input name="keywords" label="keywords" value="{{keywords}}"></paper-input>
+                <paper-input name="keywords" label="keywords" value="{{keywords}}"
+                             on-blur="handleKeyword"></paper-input>
 
                 <paper-dropdown-menu label="modelVersion"
                                      selected-item="{{selectedModelVersion}}"
@@ -199,7 +199,7 @@ Example:
                 type : String,
                 value : 'test@tester.de'
             },
-            keywords : Array,
+            keywords : String,
             modelVersions : {
                 type : Array,
                 value : ['4.0', '5.0', '6.0', '7.0', '8.0', 'future']
@@ -223,7 +223,11 @@ Example:
                 this.$.webpackdocForm.submit();
                 console.log('>> data: on-webpackDocForm.submit():', this.$.webpackdocForm.serialize());
             }
+        },
 
+        handleKeyword : function(){
+            this.keywords = this.keywords.split(/[ ,]+/);
+            return this.keywords
         }
 
     });
