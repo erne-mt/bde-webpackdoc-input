@@ -2,9 +2,9 @@
   "name": "bde-webpackdoc-input",
   "version": "0.0.1",
   "authors": [
-    "Erik Neute <erik.neute@hm-agde>"
+    "Erik Neute <erik.neute@hm-ag.de>"
   ],
-  "description": "An element providing a solution to no problem in particular.",
+  "description": "A BDE custom-element, functioning as an input-form for the required webpackage metadata.",
   "keywords": [
     "web-component",
     "polymer"
